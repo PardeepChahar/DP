@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 
@@ -25,6 +26,9 @@ public:
 
 	int CountSubset_of_Sum(int sum, int arr[], int n);
 	void call_Count_Subset();
+
+	int min_subset_sum_diff(int arr[], int n);
+	void call_minSubSetSumDiff();
 };
 
 
@@ -34,7 +38,7 @@ int DP::max(int a, int b)
 	return (a > b) ? a : b;
 }
 
-/*          Knapsack with recursion with memorization
+/*    V4      Knapsack with recursion with memorization
 =============================Started=============================*/
 int DP::KnapsackRecursive_with_Memorization(int w, int wt[], int vl[], int n, int** t)
 {
@@ -83,7 +87,7 @@ void DP::callKnapsack()
 	cout << "Recursion+memorization max profit is: " << KnapsackRecursive_with_Memorization(w, wt, val, n, t) << endl;
 }
 
-/*          Knapsack with recursion with memorization
+/*   V3       Knapsack with recursion with memorization
 ===========================ends here=========================*/
 
 
@@ -133,7 +137,7 @@ void DP::KS_Recursive()
 ===========================ends here================================*/
 
 
-/*						Top Down knapsack
+/*		V5				Top Down knapsack
 ===========================Start=================================*/
 int DP::Knapsack_TopDown(int w, int wt[], int val[], int n)
 {
@@ -189,7 +193,7 @@ void DP::topDown()
 ===========================ends here=================================*/
 
 
-/*						SubSet Sum problem
+/*		V7				SubSet Sum problem
 ============================Started====================================*/
 bool DP::isSubSet_of_Sum_Exist(int sum, int arr[], int n)
 {
@@ -255,7 +259,7 @@ void DP::subsetSumProb()
 /*						SubSet Sum problem
 ============================ends here==============================*/
 
-/*						Equal Sum Partition
+/*			V8			Equal Sum Partition
 =============================started================================*/
 
 
@@ -286,7 +290,7 @@ void DP::call_equalSum()
 /*						Equal Sum Partition
 =============================end here================================*/
 
-/*						count subset of summ
+/*		V9				count subset of summ
 =============================Started================================*/
 int DP::CountSubset_of_Sum(int sum, int arr[], int n)
 {
@@ -346,10 +350,96 @@ void DP::call_Count_Subset()
 /*						count subset of summ
 =============================end here================================*/
 
+
+/*		V10				minimun difference of sum of subset
+=============================Started================================*/
+
+int DP::min_subset_sum_diff(int arr[], int n)
+{
+	int sum = 0;
+	for (int i = 0; i < n; i++)
+	{
+		sum += arr[i];
+	}
+
+	bool **t = new bool*[n + 1];
+	for (int i = 0; i < n+1; i++)
+	{
+		t[i] = new bool[sum + 1];
+	}
+
+	//initilize
+	for (int i = 0; i < n+1; i++)
+	{
+		for (int j = 0; j < sum + 1; j++)
+		{
+			if (i == 0)
+				t[i][j] = false;
+			if (j == 0)
+				t[i][j] = true;
+		}
+	}
+
+	//fill the metrix
+	for (int i = 1; i < n + 1; i++)
+	{
+		for (int j = 1; j < sum + 1; j++)
+		{
+			if (arr[i - 1] <= j)
+				t[i][j] = t[i - 1][j - arr[i - 1]] || t[i - 1][j];
+			else
+				t[i][j] = t[i - 1][j];
+		}
+	}
+
+	//print metrix
+	for (int i = 0; i < n + 1; i++)
+	{
+		for (int j = 0; j < sum + 1; j++)
+		{
+			cout << t[i][j] << "\t";
+		}
+		cout << "\n";
+	}
+
+	vector<int> v;
+	for (int i = 0; i < (sum+1)/2; i++)
+	{
+		if (t[n][i] == true)
+		{
+			v.push_back(sum -2*i);
+
+			//cout << i << " ";
+		}
+	}
+
+	int min = INT_MAX;
+	cout << "\nvector has elements: ";
+	for (auto i = v.begin(); i != v.end(); ++i)
+	{
+		cout << *i << " ";
+		if (min > *i)
+			min = *i;
+	}
+	return min;
+}
+
+void DP::call_minSubSetSumDiff()
+{
+	int arr[] = { 1,2,7 };//output:4
+	//int arr[] = { 1,6,11,5 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	cout<<"\nMinimum difference of sum of subset: "<<min_subset_sum_diff(arr, n);
+}
+
+/*						minimun difference of sum of subset
+=============================end here================================*/
+
 int main()
 {
-	cout << "Welcome in DP!";
+	cout << "Welcome in DP!\n";
 	DP dp;
+	dp.call_minSubSetSumDiff();
 	
 	return 0;
 }
