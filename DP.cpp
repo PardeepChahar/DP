@@ -462,6 +462,9 @@ class UnB_KS
 public:
 	int Rod_Cutting(int val[], int n);
 	void call_Road_Cutting();
+
+	int max_Num_ofWays_Coin_Change(int coins[], int sum, int n);
+	void call_CoinChange();
 };
 
 /*		V14				Rod cutting problem
@@ -525,6 +528,54 @@ void UnB_KS::call_Road_Cutting()
 }
 /*						Rod cutting problem
 =============================end here================================*/
+
+/*		V15				Max number of ways to change coins
+=============================start================================*/
+int UnB_KS::max_Num_ofWays_Coin_Change(int coins[], int sum, int n)
+{
+	int **t = new int*[n + 1];
+	for (int i = 0; i < n + 1; i++)
+	{
+		t[i] = new int[sum + 1];
+	}
+	//initilize
+	for (int i = 0; i < n + 1; i++)
+	{
+		for (int j = 0; j < sum + 1; j++)
+		{
+			if (i == 0)
+			{
+				t[i][j] = 0;
+			}
+			if (j == 0)
+			{
+				t[i][j] = 1;
+			}
+		}
+	}
+	//fill the metrix
+	for (int i = 1; i < n + 1; i++)
+	{
+		for (int j = 1; j < sum + 1; j++)
+		{
+			if (coins[i - 1] <= j)
+				t[i][j] = t[i][j - coins[i-1]] + t[i - 1][j];
+			else
+				t[i][j] = t[i - 1][j];
+		}
+	}
+	return t[n][sum];
+
+}
+void UnB_KS::call_CoinChange()
+{
+	int coins[] = { 1,2,5 };//output:5
+	int sum = 5;
+	int n = sizeof(coins) / sizeof(coins[0]);
+	cout<<"Max number of ways to change coins for sum "<<sum<<" is: "<<max_Num_ofWays_Coin_Change(coins, sum, n);
+}
+/*						Max number of ways to change coins
+=============================ends here================================*/
 int main()
 {
 	cout << "Welcome in DP_O_OneKS!\n";
@@ -532,7 +583,7 @@ int main()
 	//dp.count_subset_of_given_diff();
 
 	UnB_KS uk;
-	uk.call_Road_Cutting();
-	
+	uk.call_CoinChange();
+
 	return 0;
 }
