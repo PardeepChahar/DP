@@ -29,6 +29,8 @@ public:
 
 	int min_subset_sum_diff(int arr[], int n);
 	void call_minSubSetSumDiff();
+
+	void count_subset_of_given_diff();
 };
 
 
@@ -435,11 +437,25 @@ void DP::call_minSubSetSumDiff()
 /*						minimun difference of sum of subset
 =============================end here================================*/
 
+void DP::count_subset_of_given_diff()
+{
+	int arr[] = { 1,2,3,4,5,6 };//output:5
+	int diff = 1;
+	//int arr[] = { 1,6,11,5 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	int sum = 0;
+	for (int i = 0; i < n; i++)
+	{
+		sum += arr[i];
+	}
+	sum = (sum + diff) / 2;
+	cout << "\nCount of subset sum with given difference: " << CountSubset_of_Sum(sum, arr, n);
+}
 int main()
 {
 	cout << "Welcome in DP!\n";
 	DP dp;
-	dp.call_minSubSetSumDiff();
+	dp.count_subset_of_given_diff();
 	
 	return 0;
 }
