@@ -3,12 +3,23 @@
 #include <vector>
 using namespace std;
 
+/* utility functions*/
+int max(int a, int b);
+int min(int a, int b);
+
+int max(int a, int b)
+{
+	return (a > b) ? a : b;
+}
+
+int min(int a, int b)
+{
+	return (a < b) ? a : b;
+}
 
 class DP_O_OneKS
 {//this call contains all problems related to 0-1 Knapsack
 public:
-	int max(int a, int b);
-
 	int KnapsackRecursive_with_Memorization(int w, int wt[], int vl[], int n, int** t);
 	void callKnapsack();
 
@@ -33,12 +44,6 @@ public:
 	void count_subset_of_given_diff();
 };
 
-
-
-int DP_O_OneKS::max(int a, int b)
-{
-	return (a > b) ? a : b;
-}
 
 /*    V4      Knapsack with recursion with memorization
 =============================Started=============================*/
@@ -451,11 +456,83 @@ void DP_O_OneKS::count_subset_of_given_diff()
 	sum = (sum + diff) / 2;
 	cout << "\nCount of subset sum with given difference: " << CountSubset_of_Sum(sum, arr, n);
 }
+
+class UnB_KS
+{//this class contain all the problems related to Unbounded Knapsack
+public:
+	int Rod_Cutting(int val[], int n);
+	void call_Road_Cutting();
+};
+
+/*		V14				Rod cutting problem
+=============================start================================*/
+int UnB_KS::Rod_Cutting(int val[], int n)
+{
+	//create an array of size lenght and fill it from 1 to n
+	int *len = new int[n];
+	for (int i = 0; i < n; i++)
+	{
+		len[i] = i + 1;
+	}
+
+	int **t = new int*[n + 1];
+	for (int i = 0; i < n + 1; i++)
+	{
+		t[i] = new int[n + 1];
+	}
+	//initilize
+	for (int i = 0; i < n + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			if (i == 0 || j == 0)
+			{
+				t[i][j] = 0;
+			}
+		}
+	}
+
+	//fill metrix
+	for (int i = 1; i < n + 1; i++)
+	{
+		for (int j = 1; j < n + 1; j++)
+		{
+			if (len[i - 1] <= j)
+			{
+				t[i][j] = max(val[i - 1] + t[i][j-len[i-1]], t[i-1][j]);
+			}
+			else {
+				t[i][j] = t[i - 1][j];
+			}
+		}
+	}
+	//print metrix
+	for (int i = 0; i < n + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			cout << t[i][j] << "\t";
+		}
+		cout << "\n";
+	}
+	return t[n][n];
+}
+void UnB_KS::call_Road_Cutting()
+{
+	int val[] = { 3, 5, 8, 9, 10, 17, 17, 20 };
+	int n = sizeof(val) / sizeof(val[0]);
+	cout<<"Max profit is: "<<Rod_Cutting(val, n);
+}
+/*						Rod cutting problem
+=============================end here================================*/
 int main()
 {
 	cout << "Welcome in DP_O_OneKS!\n";
-	DP_O_OneKS dp;
-	dp.count_subset_of_given_diff();
+	//DP_O_OneKS dp;
+	//dp.count_subset_of_given_diff();
+
+	UnB_KS uk;
+	uk.call_Road_Cutting();
 	
 	return 0;
 }
