@@ -647,6 +647,37 @@ void UnB_KS::Call_min_Coins()
 
 /*		V16				min number of coins for given sum/change
 =============================ends here================================*/
+
+
+class String_Problems
+{//this class contains all the problem related to strings and sequences
+public:
+	int max_Len_OfSubSeq_withRecursion(string a, string b, int m, int n);
+	void subSeq_withRecursion();
+
+};
+/*		V19				max length of subseq in two strings
+=============================start================================*/
+int String_Problems::max_Len_OfSubSeq_withRecursion(string a, string b, int m, int n)
+{
+	if (m == 0 || n == 0)
+		return 0;
+	if (a[m - 1] == b[n - 1])
+		return 1 + max_Len_OfSubSeq_withRecursion(a, b, m - 1, n - 1);
+	else
+		return max(max_Len_OfSubSeq_withRecursion(a, b, m - 1, n), max_Len_OfSubSeq_withRecursion(a, b, m, n - 1));
+}
+void String_Problems::subSeq_withRecursion()
+{
+	string a = "abcdef";
+	string b = "abpdqfk";//output:4
+	int m = a.length();
+	int n = b.length();
+	cout << "Max length of Sub seq: " << max_Len_OfSubSeq_withRecursion(a, b, m, n);
+
+}
+/*		V19				max length of subseq in two strings
+=============================start================================*/
 int main()
 {
 	cout << "Welcome in DP_O_OneKS!\n";
@@ -654,7 +685,10 @@ int main()
 	//dp.count_subset_of_given_diff();
 
 	UnB_KS uk;
-	uk.Call_min_Coins();
+	//uk.Call_min_Coins();
+	
+	String_Problems sp;
+	sp.subSeq_withRecursion();
 
 	return 0;
 }
