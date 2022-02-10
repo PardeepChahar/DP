@@ -654,7 +654,8 @@ class String_Problems
 public:
 	int max_Len_OfSubSeq_withRecursion(string a, string b, int m, int n);
 	void subSeq_withRecursion();
-
+	int max_Len_OfSubSeq_withRecursion_Memorization(string a, string b, int m, int n, int **t);
+	void subSeq_withRecursion_Memorization();
 };
 /*		V19				max length of subseq in two strings
 =============================start================================*/
@@ -678,6 +679,49 @@ void String_Problems::subSeq_withRecursion()
 }
 /*		V19				max length of subseq in two strings
 =============================start================================*/
+
+/*		V20				max length of subseq in two strings with recursion+memorization
+=============================start================================*/
+int String_Problems::max_Len_OfSubSeq_withRecursion_Memorization(string a, string b, int m, int n, int **t)
+{
+	if (m == 0 || n == 0)
+		return 0;
+
+	if (t[m][n] != -1)
+		return t[m][n];
+
+	if (a[m - 1] == b[n - 1]) {
+		t[m][n] = 1 + max_Len_OfSubSeq_withRecursion_Memorization(a, b, m - 1, n - 1, t);
+		return t[m][n];
+	}
+	else {
+		t[m][n] = max(max_Len_OfSubSeq_withRecursion_Memorization(a, b, m - 1, n, t), max_Len_OfSubSeq_withRecursion_Memorization(a, b, m, n - 1, t));
+		return t[m][n];
+	}
+}
+void String_Problems::subSeq_withRecursion_Memorization()
+{
+	string a = "abcdef";
+	string b = "fabpdqk";//output:3
+	int m = a.length();
+	int n = b.length();
+	int **t = new int*[m + 1];
+	for (int i = 0; i < m + 1; i++)
+	{
+		t[i] = new int[n + 1];
+	}
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			t[i][j] = -1;
+		}
+	}
+	cout << "Max length of Sub seq: " << max_Len_OfSubSeq_withRecursion_Memorization(a, b, m, n,t);
+
+}
+/*		V20				max length of subseq in two strings with recursion+memorization
+=============================start================================*/
 int main()
 {
 	cout << "Welcome in DP_O_OneKS!\n";
@@ -688,7 +732,7 @@ int main()
 	//uk.Call_min_Coins();
 	
 	String_Problems sp;
-	sp.subSeq_withRecursion();
+	sp.subSeq_withRecursion_Memorization();
 
 	return 0;
 }
