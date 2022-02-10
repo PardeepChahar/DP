@@ -465,6 +465,9 @@ public:
 
 	int max_Num_ofWays_Coin_Change(int coins[], int sum, int n);
 	void call_CoinChange();
+	
+	int min_number_ofCoins_for_Sum(int coins[], int sum, int n);
+	void Call_min_Coins();
 };
 
 /*		V14				Rod cutting problem
@@ -576,6 +579,74 @@ void UnB_KS::call_CoinChange()
 }
 /*						Max number of ways to change coins
 =============================ends here================================*/
+
+/*		V16				min number of coins for given sum/change 
+=============================start================================*/
+int UnB_KS::min_number_ofCoins_for_Sum(int coins[], int sum, int n)
+{
+	int **t = new int*[n + 1];
+	for (int i = 0; i < n + 1; i++)
+	{
+		t[i] = new int[sum + 1];
+	}
+	
+	for (int i = 0; i < n + 1; i++)
+	{
+		for (int j = 0; j < sum + 1; j++)
+		{
+			
+			if (j == 0)
+				t[i][j] = 0;
+			if (i == 0)
+				t[i][j] = INT_MAX - 1;
+		}
+	}
+	
+	for (int i = 1; i < 2; i++)
+	{
+		for (int j = 0; j < sum + 1; j++)
+		{
+			if (j%coins[0] == 0)
+				t[i][j] = j / coins[0];
+			else {
+				t[i][j] = INT_MAX-1;
+			}
+		}
+	}
+
+	for (int i = 2; i < n + 1; i++)
+	{
+		for (int j = 1; j < sum + 1; j++)
+		{
+			if (coins[i - 1] <= j)
+				t[i][j] = min(1 + t[i][j - coins[i - 1]], t[i - 1][j]);
+			else
+				t[i][j] = t[i - 1][j];
+		}
+	}
+	//print metrix
+	for (int i = 0; i < n + 1; i++)
+	{
+		for (int j = 0; j < sum + 1; j++)
+		{
+			cout << t[i][j] << "\t   ";
+		}
+		cout << "\n";
+	}
+	return t[n][sum];
+}
+void UnB_KS::Call_min_Coins()
+{
+	/*int coins[] = { 1,2,3 };//output:2
+	int sum = 5;*/
+	int coins[] = { 2,3,4 };//output:2
+	int sum = 5;
+	int n = sizeof(coins) / sizeof(coins[0]);
+	cout<<"min number of coins are: "<<min_number_ofCoins_for_Sum(coins, sum, n);
+}
+
+/*		V16				min number of coins for given sum/change
+=============================ends here================================*/
 int main()
 {
 	cout << "Welcome in DP_O_OneKS!\n";
@@ -583,7 +654,7 @@ int main()
 	//dp.count_subset_of_given_diff();
 
 	UnB_KS uk;
-	uk.call_CoinChange();
+	uk.Call_min_Coins();
 
 	return 0;
 }
