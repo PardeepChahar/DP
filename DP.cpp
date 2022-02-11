@@ -370,13 +370,13 @@ int DP_O_OneKS::min_subset_sum_diff(int arr[], int n)
 	}
 
 	bool **t = new bool*[n + 1];
-	for (int i = 0; i < n+1; i++)
+	for (int i = 0; i < n + 1; i++)
 	{
 		t[i] = new bool[sum + 1];
 	}
 
 	//initilize
-	for (int i = 0; i < n+1; i++)
+	for (int i = 0; i < n + 1; i++)
 	{
 		for (int j = 0; j < sum + 1; j++)
 		{
@@ -410,11 +410,11 @@ int DP_O_OneKS::min_subset_sum_diff(int arr[], int n)
 	}
 
 	vector<int> v;
-	for (int i = 0; i < (sum+1)/2; i++)
+	for (int i = 0; i < (sum + 1) / 2; i++)
 	{
 		if (t[n][i] == true)
 		{
-			v.push_back(sum -2*i);
+			v.push_back(sum - 2 * i);
 
 			//cout << i << " ";
 		}
@@ -436,7 +436,7 @@ void DP_O_OneKS::call_minSubSetSumDiff()
 	int arr[] = { 1,2,7 };//output:4
 	//int arr[] = { 1,6,11,5 };
 	int n = sizeof(arr) / sizeof(arr[0]);
-	cout<<"\nMinimum difference of sum of subset: "<<min_subset_sum_diff(arr, n);
+	cout << "\nMinimum difference of sum of subset: " << min_subset_sum_diff(arr, n);
 }
 
 /*						minimun difference of sum of subset
@@ -465,7 +465,7 @@ public:
 
 	int max_Num_ofWays_Coin_Change(int coins[], int sum, int n);
 	void call_CoinChange();
-	
+
 	int min_number_ofCoins_for_Sum(int coins[], int sum, int n);
 	void Call_min_Coins();
 };
@@ -505,7 +505,7 @@ int UnB_KS::Rod_Cutting(int val[], int n)
 		{
 			if (len[i - 1] <= j)
 			{
-				t[i][j] = max(val[i - 1] + t[i][j-len[i-1]], t[i-1][j]);
+				t[i][j] = max(val[i - 1] + t[i][j - len[i - 1]], t[i - 1][j]);
 			}
 			else {
 				t[i][j] = t[i - 1][j];
@@ -527,7 +527,7 @@ void UnB_KS::call_Road_Cutting()
 {
 	int val[] = { 3, 5, 8, 9, 10, 17, 17, 20 };
 	int n = sizeof(val) / sizeof(val[0]);
-	cout<<"Max profit is: "<<Rod_Cutting(val, n);
+	cout << "Max profit is: " << Rod_Cutting(val, n);
 }
 /*						Rod cutting problem
 =============================end here================================*/
@@ -654,8 +654,12 @@ class String_Problems
 public:
 	int max_Len_OfSubSeq_withRecursion(string a, string b, int m, int n);
 	void subSeq_withRecursion();
+
 	int max_Len_OfSubSeq_withRecursion_Memorization(string a, string b, int m, int n, int **t);
 	void subSeq_withRecursion_Memorization();
+
+	int max_Len_OfSubSeq_withTopDown(string a, string b, int m, int n);
+	void subSeq_withTopDown();
 };
 /*		V19				max length of subseq in two strings
 =============================start================================*/
@@ -721,7 +725,61 @@ void String_Problems::subSeq_withRecursion_Memorization()
 
 }
 /*		V20				max length of subseq in two strings with recursion+memorization
+=============================ends here================================*/
+
+/*		V21				max length of subseq in two strings with TopDown
 =============================start================================*/
+int String_Problems::max_Len_OfSubSeq_withTopDown(string a, string b, int m, int n)
+{
+	if (m == 0 || n == 0)
+		return 0;
+
+	int **t = new int*[m + 1];
+	for (int i = 0; i < m + 1; i++)
+	{
+		t[i] = new int[n + 1];
+	}
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			if (i == 0 || j == 0)
+				t[i][j] = 0;
+		}
+	}
+	for (int i = 1; i < m + 1; i++)
+	{
+		for (int j = 1; j < n + 1; j++)
+		{
+			if (a[i - 1] == b[j - 1])
+				t[i][j] = 1 + t[i - 1][j - 1];
+			else
+				t[i][j] = max(t[i - 1][j], t[i][j - 1]);
+		}
+	}
+	//print metrix
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			cout << t[i][j] << "\t   ";
+		}
+		cout << "\n";
+	}
+	return t[m][n];
+}
+void String_Problems::subSeq_withTopDown()
+{
+	cout << "\nMax sub seq string problem\n";
+	string a = "abc";
+	string b = "abpdqk";//output:2
+	int m = a.length();
+	int n = b.length();
+	cout << "Max length of Sub seq: " << max_Len_OfSubSeq_withTopDown(a, b, m, n);
+}
+/*		V21				max length of subseq in two strings with Top Down
+=============================ends here================================*/
+
 int main()
 {
 	cout << "Welcome in DP_O_OneKS!\n";
@@ -732,7 +790,7 @@ int main()
 	//uk.Call_min_Coins();
 	
 	String_Problems sp;
-	sp.subSeq_withRecursion_Memorization();
+	sp.subSeq_withTopDown();
 
 	return 0;
 }
