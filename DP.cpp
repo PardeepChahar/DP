@@ -660,8 +660,11 @@ public:
 
 	int max_Len_OfSubSeq_withTopDown(string a, string b, int m, int n);
 	void subSeq_withTopDown();
+
+	int max_Len_OfSubString_withTopDown(string a, string b, int m, int n);
+	void subString_withTopDown();
 };
-/*		V19				max length of subseq in two strings
+/*		V19				max length of common subseq in two strings
 =============================start================================*/
 int String_Problems::max_Len_OfSubSeq_withRecursion(string a, string b, int m, int n)
 {
@@ -681,10 +684,10 @@ void String_Problems::subSeq_withRecursion()
 	cout << "Max length of Sub seq: " << max_Len_OfSubSeq_withRecursion(a, b, m, n);
 
 }
-/*		V19				max length of subseq in two strings
+/*		V19				max length of common subseq in two strings
 =============================start================================*/
 
-/*		V20				max length of subseq in two strings with recursion+memorization
+/*		V20				max length of common subseq in two strings with recursion+memorization
 =============================start================================*/
 int String_Problems::max_Len_OfSubSeq_withRecursion_Memorization(string a, string b, int m, int n, int **t)
 {
@@ -724,10 +727,10 @@ void String_Problems::subSeq_withRecursion_Memorization()
 	cout << "Max length of Sub seq: " << max_Len_OfSubSeq_withRecursion_Memorization(a, b, m, n,t);
 
 }
-/*		V20				max length of subseq in two strings with recursion+memorization
+/*		V20				max length of common subseq in two strings with recursion+memorization
 =============================ends here================================*/
 
-/*		V21				max length of subseq in two strings with TopDown
+/*		V21				max length of common subseq in two strings with TopDown
 =============================start================================*/
 int String_Problems::max_Len_OfSubSeq_withTopDown(string a, string b, int m, int n)
 {
@@ -777,7 +780,61 @@ void String_Problems::subSeq_withTopDown()
 	int n = b.length();
 	cout << "Max length of Sub seq: " << max_Len_OfSubSeq_withTopDown(a, b, m, n);
 }
-/*		V21				max length of subseq in two strings with Top Down
+/*		V21				max length of common subseq in two strings with Top Down
+=============================ends here================================*/
+
+
+/*		V21				max length of common substring in two strings with Top Down
+=============================start================================*/
+int String_Problems::max_Len_OfSubString_withTopDown(string a, string b, int m, int n)
+{
+	if (m == 0 || n == 0)
+		return 0;
+
+	int **t = new int*[m + 1];
+	for (int i = 0; i < m + 1; i++)
+	{
+		t[i] = new int[n + 1];
+	}
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			if (i == 0 || j == 0)
+				t[i][j] = 0;
+		}
+	}
+	for (int i = 1; i < m + 1; i++)
+	{
+		for (int j = 1; j < n + 1; j++)
+		{
+			if (a[i - 1] == b[j - 1])
+				t[i][j] = 1 + t[i - 1][j - 1];
+			else
+				t[i][j] =0;
+		}
+	}
+	//print metrix
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			cout << t[i][j] << "\t   ";
+		}
+		cout << "\n";
+	}
+	return t[m][n];
+}
+void String_Problems::subString_withTopDown()
+{
+	cout << "\nMax sub seq string problem\n";
+	string a = "abckkk";
+	string b = "abpdqkkk";//output:2
+	int m = a.length();
+	int n = b.length();
+	cout << "Max length of Sub seq: " << max_Len_OfSubString_withTopDown(a, b, m, n);
+}
+/*		V22				max length of common substring in two strings with Top Down
 =============================ends here================================*/
 
 int main()
@@ -790,7 +847,7 @@ int main()
 	//uk.Call_min_Coins();
 	
 	String_Problems sp;
-	sp.subSeq_withTopDown();
+	sp.subString_withTopDown();
 
 	return 0;
 }
