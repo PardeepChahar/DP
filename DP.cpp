@@ -889,7 +889,7 @@ string String_Problems::print_Longest_SubSeq_withTopDown(string a, string b, int
 	//back tracking
 	int x = m, y = n;
 	string s = "";
-	while (x > 0 || y > 0)
+	while (x > 0 && y > 0)
 	{
 		if (a[x - 1] == b[y - 1])
 		{
