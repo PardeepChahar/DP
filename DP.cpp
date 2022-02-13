@@ -804,12 +804,16 @@ int String_Problems::max_Len_OfSubString_withTopDown(string a, string b, int m, 
 				t[i][j] = 0;
 		}
 	}
+	int res = 0;
 	for (int i = 1; i < m + 1; i++)
 	{
 		for (int j = 1; j < n + 1; j++)
 		{
 			if (a[i - 1] == b[j - 1])
+			{
 				t[i][j] = 1 + t[i - 1][j - 1];
+				res = max(res, t[i][j]);
+			}
 			else
 				t[i][j] =0;
 		}
@@ -823,7 +827,7 @@ int String_Problems::max_Len_OfSubString_withTopDown(string a, string b, int m, 
 		}
 		cout << "\n";
 	}
-	return t[m][n];
+	return res;
 }
 void String_Problems::subString_withTopDown()
 {
