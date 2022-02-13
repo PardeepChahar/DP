@@ -666,6 +666,9 @@ public:
 
 	string print_Longest_SubSeq_withTopDown(string a, string b, int m, int n);
 	void pring_SubSeq_withTopDown();
+
+	void length_Of_Shortest_Common_SuperSeq();
+
 };
 /*		V19				max length of common subseq in two strings
 =============================start================================*/
@@ -925,6 +928,18 @@ void String_Problems::pring_SubSeq_withTopDown()
 /*		V23				print longest subseq in two strings with Top Down
 =============================ends here================================*/
 
+/*		V24				shortes common super Sequence
+=============================started================================*/
+void String_Problems::length_Of_Shortest_Common_SuperSeq()
+{
+	string a = "geek";
+	string b = "ekc";//output:5
+	int m = a.length();
+	int n = b.length();
+	cout << "length of shortest Super seq: " << m + n - max_Len_OfSubSeq_withTopDown(a, b, m, n);
+}
+/*		V24				shortes common super Sequence
+=============================ends here================================*/
 int main()
 {
 	cout << "Welcome in DP_O_OneKS!\n";
@@ -935,7 +950,7 @@ int main()
 	//uk.Call_min_Coins();
 
 	String_Problems sp;
-	sp.pring_SubSeq_withTopDown();
+	sp.length_Of_Shortest_Common_SuperSeq();
 
 	return 0;
 }
