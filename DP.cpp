@@ -669,6 +669,9 @@ public:
 
 	void length_Of_Shortest_Common_SuperSeq();
 
+	string print_Shortest_Super_Seq_withTopDown(string a, string b, int m, int n);
+	void print_Shortest_Common_SuperSeq();
+
 };
 /*		V19				max length of common subseq in two strings
 =============================start================================*/
@@ -940,6 +943,104 @@ void String_Problems::length_Of_Shortest_Common_SuperSeq()
 }
 /*		V24				shortes common super Sequence
 =============================ends here================================*/
+
+/*		V29				print shortest common super sequence
+=============================started================================*/
+string String_Problems::print_Shortest_Super_Seq_withTopDown(string a, string b, int m, int n)
+{
+	if (m == 0)
+		return b;
+	if (n == 0)
+		return a;
+
+	int **t = new int*[m + 1];
+	for (int i = 0; i < m + 1; i++)
+	{
+		t[i] = new int[n + 1];
+	}
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			if (i == 0 || j == 0)
+				t[i][j] = 0;
+		}
+	}
+	for (int i = 1; i < m + 1; i++)
+	{
+		for (int j = 1; j < n + 1; j++)
+		{
+			if (a[i - 1] == b[j - 1])
+				t[i][j] = 1 + t[i - 1][j - 1];
+			else
+				t[i][j] = max(t[i - 1][j], t[i][j - 1]);
+		}
+	}
+	/*//print metrix
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			cout << t[i][j] << "\t   ";
+		}
+		cout << "\n";
+	}*/
+
+	//back tracking
+	int x = m, y = n;
+	string s = "";
+	while (x > 0 && y > 0)
+	{
+		if (a[x - 1] == b[y - 1])
+		{
+			s.push_back(a[x - 1]);
+			x--;
+			y--;
+		}
+		else
+		{
+			if (t[x - 1][y] > t[x][y - 1])
+			{
+				s.push_back(a[x - 1]);
+				x--;
+			}
+			else
+			{
+				s.push_back(b[y - 1]);
+				y--;
+			}
+		}
+	}
+	//in backtracking if x>0 it means elements are pending from string a so add them
+	while (x > 0)
+	{
+		s.push_back(a[x - 1]);
+		x--;
+	}
+	//in backtracking if y>0 it means elements are pending from string b so add them
+	while (y > 0)
+	{
+		s.push_back(b[y - 1]);
+		y--;
+	}
+	return s;
+}
+void String_Problems::print_Shortest_Common_SuperSeq()
+{
+	string a = " ";
+	string b = "ekc";//output:geekc
+	int m = a.length();
+	int n = b.length();
+	string maxSuperSeq = print_Shortest_Super_Seq_withTopDown(a, b, m, n);
+	cout << "\nShortest Super seq: ";
+	for (int i = 0; i < maxSuperSeq.length(); i++)
+	{
+		cout << maxSuperSeq[maxSuperSeq.length() - i - 1];
+	}
+}
+/*		V2-				print shortest common super sequence
+=============================ends here================================*/
+
 int main()
 {
 	cout << "Welcome in DP_O_OneKS!\n";
@@ -950,7 +1051,7 @@ int main()
 	//uk.Call_min_Coins();
 
 	String_Problems sp;
-	sp.length_Of_Shortest_Common_SuperSeq();
+	sp.print_Shortest_Common_SuperSeq();
 
 	return 0;
 }
