@@ -672,6 +672,9 @@ public:
 	string print_Shortest_Super_Seq_withTopDown(string a, string b, int m, int n);
 	void print_Shortest_Common_SuperSeq();
 
+	int Len_Of_Longest_Repeating_SubSeq(string a, string b, int m, int n);
+	void repeating_longest_subSeq();
+
 };
 /*		V19				max length of common subseq in two strings
 =============================start================================*/
@@ -1041,6 +1044,57 @@ void String_Problems::print_Shortest_Common_SuperSeq()
 /*		V2-				print shortest common super sequence
 =============================ends here================================*/
 
+/*		V30				length of longest repeating subseq given strings
+=============================start================================*/
+int String_Problems::Len_Of_Longest_Repeating_SubSeq(string a, string b, int m, int n)
+{
+	if (m == 0 || n == 0)
+		return 0;
+
+	int **t = new int*[m + 1];
+	for (int i = 0; i < m + 1; i++)
+	{
+		t[i] = new int[n + 1];
+	}
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			if (i == 0 || j == 0)
+				t[i][j] = 0;
+		}
+	}
+	for (int i = 1; i < m + 1; i++)
+	{
+		for (int j = 1; j < n + 1; j++)
+		{
+			if (a[i - 1] == b[j - 1] && i != j)
+				t[i][j] = 1 + t[i - 1][j - 1];
+			else
+				t[i][j] = max(t[i - 1][j], t[i][j - 1]);
+		}
+	}
+	//print metrix
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			cout << t[i][j] << "\t   ";
+		}
+		cout << "\n";
+	}
+	return t[m][n];
+}
+void String_Problems::repeating_longest_subSeq()
+{
+	cout << "\nMax sub seq string problem\n";
+	string a = "aaabebcdd";
+	int m = a.length();
+	cout << "Max length of Sub seq: " << Len_Of_Longest_Repeating_SubSeq(a, a, m, m);
+}
+/*		V30				length of longest repeating subseq given strings
+=============================ends here================================*/
+
 int main()
 {
 	cout << "Welcome in DP_O_OneKS!\n";
@@ -1051,7 +1105,7 @@ int main()
 	//uk.Call_min_Coins();
 
 	String_Problems sp;
-	sp.print_Shortest_Common_SuperSeq();
+	sp.repeating_longest_subSeq();
 
 	return 0;
 }
