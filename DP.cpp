@@ -562,7 +562,7 @@ int UnB_KS::max_Num_ofWays_Coin_Change(int coins[], int sum, int n)
 		for (int j = 1; j < sum + 1; j++)
 		{
 			if (coins[i - 1] <= j)
-				t[i][j] = t[i][j - coins[i-1]] + t[i - 1][j];
+				t[i][j] = t[i][j - coins[i - 1]] + t[i - 1][j];
 			else
 				t[i][j] = t[i - 1][j];
 		}
@@ -575,12 +575,12 @@ void UnB_KS::call_CoinChange()
 	int coins[] = { 1,2,5 };//output:5
 	int sum = 5;
 	int n = sizeof(coins) / sizeof(coins[0]);
-	cout<<"Max number of ways to change coins for sum "<<sum<<" is: "<<max_Num_ofWays_Coin_Change(coins, sum, n);
+	cout << "Max number of ways to change coins for sum " << sum << " is: " << max_Num_ofWays_Coin_Change(coins, sum, n);
 }
 /*						Max number of ways to change coins
 =============================ends here================================*/
 
-/*		V16				min number of coins for given sum/change 
+/*		V16				min number of coins for given sum/change
 =============================start================================*/
 int UnB_KS::min_number_ofCoins_for_Sum(int coins[], int sum, int n)
 {
@@ -589,19 +589,19 @@ int UnB_KS::min_number_ofCoins_for_Sum(int coins[], int sum, int n)
 	{
 		t[i] = new int[sum + 1];
 	}
-	
+
 	for (int i = 0; i < n + 1; i++)
 	{
 		for (int j = 0; j < sum + 1; j++)
 		{
-			
+
 			if (j == 0)
 				t[i][j] = 0;
 			if (i == 0)
 				t[i][j] = INT_MAX - 1;
 		}
 	}
-	
+
 	for (int i = 1; i < 2; i++)
 	{
 		for (int j = 0; j < sum + 1; j++)
@@ -609,7 +609,7 @@ int UnB_KS::min_number_ofCoins_for_Sum(int coins[], int sum, int n)
 			if (j%coins[0] == 0)
 				t[i][j] = j / coins[0];
 			else {
-				t[i][j] = INT_MAX-1;
+				t[i][j] = INT_MAX - 1;
 			}
 		}
 	}
@@ -642,7 +642,7 @@ void UnB_KS::Call_min_Coins()
 	int coins[] = { 2,3,4 };//output:2
 	int sum = 5;
 	int n = sizeof(coins) / sizeof(coins[0]);
-	cout<<"min number of coins are: "<<min_number_ofCoins_for_Sum(coins, sum, n);
+	cout << "min number of coins are: " << min_number_ofCoins_for_Sum(coins, sum, n);
 }
 
 /*		V16				min number of coins for given sum/change
@@ -724,7 +724,7 @@ void String_Problems::subSeq_withRecursion_Memorization()
 			t[i][j] = -1;
 		}
 	}
-	cout << "Max length of Sub seq: " << max_Len_OfSubSeq_withRecursion_Memorization(a, b, m, n,t);
+	cout << "Max length of Sub seq: " << max_Len_OfSubSeq_withRecursion_Memorization(a, b, m, n, t);
 
 }
 /*		V20				max length of common subseq in two strings with recursion+memorization
@@ -784,7 +784,7 @@ void String_Problems::subSeq_withTopDown()
 =============================ends here================================*/
 
 
-/*		V21				max length of common substring in two strings with Top Down
+/*		V22				max length of common substring in two strings with Top Down
 =============================start================================*/
 int String_Problems::max_Len_OfSubString_withTopDown(string a, string b, int m, int n)
 {
@@ -815,7 +815,7 @@ int String_Problems::max_Len_OfSubString_withTopDown(string a, string b, int m, 
 				res = max(res, t[i][j]);
 			}
 			else
-				t[i][j] =0;
+				t[i][j] = 0;
 		}
 	}
 	//print metrix
@@ -849,7 +849,7 @@ int main()
 
 	UnB_KS uk;
 	//uk.Call_min_Coins();
-	
+
 	String_Problems sp;
 	sp.subString_withTopDown();
 
