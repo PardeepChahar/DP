@@ -663,6 +663,9 @@ public:
 
 	int max_Len_OfSubString_withTopDown(string a, string b, int m, int n);
 	void subString_withTopDown();
+
+	string print_Longest_SubSeq_withTopDown(string a, string b, int m, int n);
+	void pring_SubSeq_withTopDown();
 };
 /*		V19				max length of common subseq in two strings
 =============================start================================*/
@@ -840,6 +843,87 @@ void String_Problems::subString_withTopDown()
 }
 /*		V22				max length of common substring in two strings with Top Down
 =============================ends here================================*/
+/*		V23				print longest subseq in two strings with TopDown
+=============================start================================*/
+string String_Problems::print_Longest_SubSeq_withTopDown(string a, string b, int m, int n)
+{
+	if (m == 0 || n == 0)
+		return 0;
+
+	int **t = new int*[m + 1];
+	for (int i = 0; i < m + 1; i++)
+	{
+		t[i] = new int[n + 1];
+	}
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			if (i == 0 || j == 0)
+				t[i][j] = 0;
+		}
+	}
+	for (int i = 1; i < m + 1; i++)
+	{
+		for (int j = 1; j < n + 1; j++)
+		{
+			if (a[i - 1] == b[j - 1])
+				t[i][j] = 1 + t[i - 1][j - 1];
+			else
+				t[i][j] = max(t[i - 1][j], t[i][j - 1]);
+		}
+	}
+	/*//print metrix
+	for (int i = 0; i < m + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			cout << t[i][j] << "\t   ";
+		}
+		cout << "\n";
+	}*/
+
+	//back tracking
+	int x = m, y = n;
+	string s = "";
+	while (x > 0 || y > 0)
+	{
+		if (a[x - 1] == b[y - 1])
+		{
+			s.push_back(a[x - 1]);
+			x--;
+			y--;
+		}
+		else
+		{
+			if (t[x - 1][y] > t[x][y - 1])
+			{
+				x--;
+			}
+			else
+				y--;
+		}
+	}
+	return s;
+}
+void String_Problems::pring_SubSeq_withTopDown()
+{
+	cout << "\n\t\tMax sub seq string problem\n";
+	/*string b = "abcdaf";
+	string a = "acbcf";//output:2*/
+	string a = "abcdexkk";
+	string b = "abcdepdqkkk";//output:2
+	int m = a.length();
+	int n = b.length();
+	cout << "Max Sub seq: ";
+	string maxSubSeq = print_Longest_SubSeq_withTopDown(a, b, m, n);
+	for (int i = 0; i < maxSubSeq.length(); i++)
+	{
+		cout << maxSubSeq[maxSubSeq.length() - i - 1];
+	}
+}
+/*		V23				print longest subseq in two strings with Top Down
+=============================ends here================================*/
 
 int main()
 {
@@ -851,7 +935,7 @@ int main()
 	//uk.Call_min_Coins();
 
 	String_Problems sp;
-	sp.subString_withTopDown();
+	sp.pring_SubSeq_withTopDown();
 
 	return 0;
 }
