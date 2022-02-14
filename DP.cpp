@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 /* utility functions*/
@@ -1095,6 +1096,29 @@ void String_Problems::repeating_longest_subSeq()
 /*		V30				length of longest repeating subseq given strings
 =============================ends here================================*/
 
+/*						print balanced parenthesis
+=============================start here================================*/
+vector<string> v;
+void rec(string s, int close, int opened)
+{
+	if (close == 0 && opened == 0)
+		v.push_back(s);
+
+	if (opened != 0)
+		rec(s + "(", close, opened - 1);
+	if (close > opened)
+		rec(s + ")", close - 1, opened);
+}
+void Print_BalancedParenthesis(int n)
+{
+	rec("", n, n);
+	for (auto i = v.begin(); i != v.end(); i++)
+	{
+		cout << *i << "\n";
+	}
+}
+/*						print balanced parenthesis
+=============================ends here================================*/
 int main()
 {
 	cout << "Welcome in DP_O_OneKS!\n";
@@ -1105,7 +1129,8 @@ int main()
 	//uk.Call_min_Coins();
 
 	String_Problems sp;
-	sp.repeating_longest_subSeq();
+	//sp.repeating_longest_subSeq();
 
+	Print_BalancedParenthesis(2);
 	return 0;
 }
